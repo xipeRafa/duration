@@ -1,0 +1,71 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+
+import React, { Component } from "react";
+import "./index.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import DatePicker, {registerLocale} from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import es from 'date-fns/locale/es';
+registerLocale("es", es);
+
+class App extends Component {
+state={
+  fecha: new Date("2018", "06", "22")
+}
+
+onChange=fecha=>{
+  this.setState({fecha: fecha});
+  console.log(fecha)
+  /* console.log('parse:', Date.parse(fecha)) parse te convierte con horas */
+
+  let today = fecha.getTime() //convierte la fecha en microsegundos
+  let tomorrow = today + 86400000
+  console.log(today)
+  console.log(tomorrow)
+}  
+
+mostrarFecha = fecha=>{
+  const options = {weekday: 'short', year: 'numeric', month: 'long', day: 'numeric'};
+  console.log(fecha.toLocaleDateString('es-ES', options));
+}
+
+  render() {
+    return (
+      <>
+        <div className="contenedor">
+          <div className="center">
+           <DatePicker selected={this.state.fecha} onChange={this.onChange} locale="es" className="pickers" dateFormat="dd 'de' MMMM 'de' yyyy"/>
+           <br /><br />
+           
+           <input type="button" value="Mostrar Fecha" className="btn btn-primary" 
+           onClick={()=>this.mostrarFecha(this.state.fecha)}/>
+
+          </div>
+        </div>
+      </>
+    );
+  }
+}
