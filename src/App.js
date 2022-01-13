@@ -61,7 +61,7 @@ const App = ()=> {
       
         <div className="container bg-dark  py-5 m-5 row">
 
-          <p className="text-white m-0">86 400 000</p>
+          <p className="text-white m-0">86 400 000 let today00 = Date.parse(new Date().toDateString())</p>
 
           <div className="my-5 col-md-3">
            <DatePicker  selected={fecha} onChange={onChange} locale="es" className="pickers form-control" 
