@@ -8,86 +8,70 @@ registerLocale("es", es);
 
 const App = ()=> {
 
-  const [fecha, setFecha]=useState()
 
-  const [hoy, setHoy]=useState()
-  const [ma, setMa]=useState()
+  const [ hoy, setHoy ]=useState() // miliseconds 
+  const [fecha, setFecha]=useState() //Fri Feb 03 2023 00:00:00 GMT-0700 (hora estándar del Pacífico de México)
 
-  const onChange=fecha=>{
-    setFecha(fecha);
+  const handlerDuration = e => setHoy(e.target.value)
 
-    /* console.log('parse:', Date.parse(fecha)) parse te convierte con horas */
-
-    let today = fecha.getTime() //convierte la fecha en microsegundos
-    let tomorrow = today + 86400000
-
-    setHoy(today)
-    setMa(tomorrow)
+  const onChangeDatePicker = fecha => {
+      setFecha(fecha);
+      /* console.log('parse:', Date.parse(fecha)) parse te convierte con horas */
+      let today = fecha.getTime()   // .getTime() convierte la fecha en microsegundos
+      let tomorrow = today + 86400000
+      setHoy(today)
   }  
+ 
 
-  const [duration, setDuration]=useState()
-
-  const [sec, setSec]=useState()
-
-  const handlerDuration = (e) =>{
-    setDuration(e.target.value)
-  }
-
-  const onSubmit = (e)=>{
-    e.preventDefault()
-    setSec(duration)
-  }
-
-
-  let date = new Date(sec * 1).toLocaleDateString("es-CL", {
-    weekday: "long", // narrow, short
-    year: "numeric", // 2-digit
-    month: "long", // numeric, 2-digit, narrow, long
-    day: "numeric", // 2-digit
+  let date = new Date(Number(hoy)).toLocaleDateString("es-CL", {
+      weekday: "long", // narrow, short
+      year: "numeric", // 2-digit
+      month: "long", // numeric, 2-digit, narrow, long
+      day: "numeric", // 2-digit
   })
 
-  const time = new Date(sec * 1).toLocaleTimeString("es-CL") 
+  const hora = new Date(Number(hoy)).toLocaleTimeString("es-CL") 
 
 
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
-  const options = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
+  let fechaDate = fecha?.toLocaleDateString('es-ES', options)
 
-  let fechaa = fecha?.toLocaleDateString('es-ES', options)
-
-  const hora = new Date(hoy).toLocaleTimeString("es-CL")
 
 
   return (
       
         <div className="container bg-dark  py-5 m-5 row">
 
-          <p className="text-white m-0">86 400 000 let today00 = Date.parse(new Date().toDateString())</p>
+          <p className="text-white m-0">Select the Day</p>
+          {/* <p>86 400 000 let today00 = Date.parse(new Date().toDateString())</p> */}
 
           <div className="my-5 col-md-3">
-           <DatePicker  selected={fecha} onChange={onChange} locale="es" className="pickers form-control" 
-                        dateFormat="dd 'de' MMMM 'de' yyyy"/>
+              <DatePicker 
+                selected={fecha}
+                onChange={onChangeDatePicker} 
+                locale="es" 
+                className="pickers form-control" 
+                dateFormat="dd 'de' MMMM 'de' yyyy"
+              />
           </div>
 
-          <div className={fecha !== undefined ? 'text-white' : 'd-none'}>
-            <p className="m-0 mb-1">
-              {fechaa}: {hoy} <span className="text-dark"> ---- </span>hora: {hora}
-            </p>
-            <p className="m-0">
-              <span className="text-dark"> ------------------ </span> un dia mas: {ma}
-              <span className="text-dark"> ----</span>hora: {hora}
-            </p>
+          <p className={fecha !== undefined ? 'text-white' : 'd-none'}> {fechaDate} hora: {hora} </p>              
+
+          <div className="my-5 col-md-3">
+            <input 
+                className="form-control mb-1" 
+                type="text" 
+                onChange={handlerDuration} 
+                value={hoy} 
+                placeholder='miliseconds'
+            />
           </div>
 
-            <br/>
-          <form onSubmit={onSubmit} className="col-md-3 my-5">
-            <input className="form-control" type="text" onChange={handlerDuration}/>
-          </form>
 
-          <div>
-            <p className={sec > 0 ? 'text-white' : 'd-none'}>  
-              {date} <span className="text-dark"> ---- </span>hora: {time} 
-            </p>
-          </div>
+          <p className={hoy > 0 ? 'text-white' : 'd-none'}> 
+              un dia siguiente es {Number(hoy) + 86400000}{' '} La hora es {hora} 
+          </p>
 
         </div>
       
