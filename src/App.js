@@ -18,7 +18,6 @@ const App = ()=> {
       setFecha(fecha);
       /* console.log('parse:', Date.parse(fecha)) parse te convierte con horas */
       let today = fecha.getTime()   // .getTime() convierte la fecha en microsegundos
-      let tomorrow = today + 86400000
       setHoy(today)
   }  
  
