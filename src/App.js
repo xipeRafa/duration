@@ -33,6 +33,7 @@ const App = ()=> {
 
 
   const onChangeDatePicker = fecha => {
+    console.log( Date.parse(fecha))
       setFecha(fecha);
       /* console.log('parse:', Date.parse(fecha)) parse te convierte con horas */
       let today = fecha.getTime()   // .getTime() convierte la fecha en microsegundos
@@ -48,14 +49,18 @@ const App = ()=> {
       hour:'numeric',
       minute:'numeric',
       second:'numeric',
-  })
+  })  
+  //  jueves, 27 de febrero de 2025, 12:00:00 a. m.
+
+
 
   const hora = new Date(Number(hoy)).toLocaleTimeString("es-CL") 
 
 
   const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
-  let fechaDate = fecha?.toLocaleDateString('es-ES', options).replace(/\b\w/g, l => l.toUpperCase().replace('','').replace('D','d')) // .replace(/\b\w/g, l => l.toUpperCase().replace('D','d'))
+  let fechaDate = fecha?.toLocaleDateString('es-ES', options)
+    .replace(/\b\w/g, l => l.toUpperCase().replace('','').replace('D','d')) // .replace(/\b\w/g, l => l.toUpperCase().replace('D','d'))
 
 
 
@@ -105,6 +110,57 @@ const App = ()=> {
   const msecToDateNumbers =(milliseconds)=>{ // '16/8/2024, 12:00:00 a.m.'
       return new Date(milliseconds).toLocaleString()
   }
+
+
+
+
+
+
+  const toCalendar=(mscns)=>{
+        let day = new Date(mscns).toLocaleString().split('/')[0]
+        let month = new Date(mscns).toLocaleString().split('/')[1]
+        let year = new Date(mscns).toLocaleString().split('/')[2].slice(0, 4)
+    
+
+        let b = new Date(mscns).toLocaleString().slice(12,19)  
+        
+        return year + '-' + month +'-'+ day + 'T' + b
+  }
+
+
+
+
+
+
+
+
+
+    let dateInput = '2025-02-27' 
+
+    const inputDateToMscns = (dateInput) => {
+        return Date.parse(dateInput)+25200000
+    }
+
+    inputDateToMscns(dateInput) // 1740639600000  ( jueves, 27 de febrero de 2025, 12:00:00 a. m. )
+
+
+
+
+    const dateInputSortDayMonthYear =(dateInput)=>{ 
+        return new Date(Date.parse(dateInput)+25200000).toLocaleString().slice(0,9)  
+    }
+
+
+    dateInputSortDayMonthYear(dateInput) // '27/2/2025'
+
+
+
+
+
+
+
+
+
 
 
 
